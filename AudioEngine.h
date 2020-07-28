@@ -49,7 +49,7 @@ class AudioEngine
 public:
     static void init();
     static void update();
-    static void shutdown();
+    //static void shutdown();
     static int errorCheck(FMOD_RESULT result);
 
     void loadBank(const std::string& bankName, FMOD_STUDIO_LOAD_BANK_FLAGS flags);
