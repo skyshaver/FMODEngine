@@ -54,12 +54,12 @@ public:
 
     void loadBank(const std::string& bankName, FMOD_STUDIO_LOAD_BANK_FLAGS flags);
     void loadEvent(const std::string& eventName);
-    void loadSound(const std::string& soundName, bool is3D = true, bool isLooping = false, bool isStream = false);
+    void loadSound(const std::string& soundName, bool is3D = false, bool isLooping = false, bool isStream = false);
     void unLoadSound(const std::string& strSoundName);
 
     // void set3dListenerAndOrientation(const Vector3& vPos = Vector3{ 0, 0, 0 }, float fVolumedB = 0.0f);
 
-    int playSound(const std::string& soundName, const glm::vec3 pos = { 0, 0, 0 }, float volumedB = 0.0f);
+    int playSound(const std::string& soundName, float volumedB = 0.0f, const glm::vec3 pos = { 0, 0, 0 });
     void playEvent(const std::string& eventName);
     // void stopChannel(int nChannelId);
     void stopEvent(const std::string& eventName, bool isImmediate = false);
@@ -73,6 +73,7 @@ public:
     bool isEventPlaying(const std::string& eventName) const;
     float dBToVolume(float dB);
     float volumeTodB(float volume);
+    unsigned int getSoundLengthInMS(const std::string& soundName);
 
     FMOD_VECTOR vectorToFmod(const glm::vec3& pos);
 

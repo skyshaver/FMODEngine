@@ -23,9 +23,30 @@ int main()
     AudioEngine audioEngine;
     audioEngine.init();
     std::string soundpath = "samples/glass_testubes_rattle_02.wav";
-    audioEngine.loadSound(soundpath);
-    while (true)
+    std::string boop = "samples/boop_13.wav";
+    std::string beep = "samples/beep_06.wav";
+    audioEngine.loadSound(soundpath, false, true);
+    audioEngine.loadSound(boop);
+    audioEngine.loadSound(beep);
+
+    unsigned int ms = 0;
+    unsigned int length = audioEngine.getSoundLengthInMS(soundpath);
+    bool glassfirst = true;
+    bool boopfirst = true;
+    bool beepfirst = true;
+    while (ms < (length * 2))
     {
-        audioEngine.playSound(soundpath, glm::vec3{ 0.f }, audioEngine.volumeTodB(1.f));
+        
+        static auto start = std::chrono::high_resolution_clock::now();
+
+        if (glassfirst) { audioEngine.playSound(soundpath, audioEngine.volumeTodB(.75f)); glassfirst = false; }
+
+        if (ms >= 2000 && boopfirst) { audioEngine.playSound(boop, audioEngine.volumeTodB(1.f)); boopfirst = false; }
+                                                    
+        if (ms >= 4000 && beepfirst) { audioEngine.playSound(beep, audioEngine.volumeTodB(1.f)); beepfirst = false; }
+
+
+        auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
+        ms = static_cast<unsigned int>(int_ms.count());
     }
 }

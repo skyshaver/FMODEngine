@@ -78,11 +78,11 @@ void AudioEngine::loadEvent(const std::string& eventName)
         return;
     }
 
-    FMOD::Studio::EventDescription* eventDescription = NULL;
+    FMOD::Studio::EventDescription* eventDescription = nullptr;
     AudioEngine::errorCheck(implementation->studioSystem->getEvent(eventName.c_str(), &eventDescription));
     if (eventDescription) 
     {
-        FMOD::Studio::EventInstance* eventInstance = NULL;
+        FMOD::Studio::EventInstance* eventInstance = nullptr;
         AudioEngine::errorCheck(eventDescription->createInstance(&eventInstance));
         if (eventInstance) 
         {
@@ -125,7 +125,7 @@ void AudioEngine::unLoadSound(const std::string& strSoundName)
     implementation->sounds.erase(it);
 }
 
-int AudioEngine::playSound(const std::string& soundName, const glm::vec3 pos, float volumedB)
+int AudioEngine::playSound(const std::string& soundName, float volumedB, const glm::vec3 pos)
 {
     int channelId = implementation->nextChannelId++;
     auto it = implementation->sounds.find(soundName);
@@ -138,7 +138,7 @@ int AudioEngine::playSound(const std::string& soundName, const glm::vec3 pos, fl
             return channelId;
         }
     }
-    FMOD::Channel* channel = nullptr;
+    FMOD::Channel* channel = 0;
     AudioEngine::errorCheck(implementation->system->playSound(it->second, nullptr, true, &channel));
     if (channel)
     {
@@ -255,6 +255,14 @@ float AudioEngine::dBToVolume(float dB)
 float AudioEngine::volumeTodB(float volume)
 {
     return 20.0f * log10f(volume);
+}
+
+unsigned int AudioEngine::getSoundLengthInMS(const std::string& soundName)
+{
+    unsigned int out = 0;
+    implementation->sounds[soundName]->getLength(&out, FMOD_TIMEUNIT_MS);
+    return out;
+    
 }
 
 FMOD_VECTOR AudioEngine::vectorToFmod(const glm::vec3& pos)
