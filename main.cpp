@@ -22,7 +22,7 @@ int main()
 {
     AudioEngine audioEngine;
     audioEngine.init();
-    std::string soundpath = "samples/glass_testubes_rattle_02.wav";
+    std::string soundpath = "samples/Breakout_Theme.wav";
     std::string boop = "samples/boop_13.wav";
     std::string beep = "samples/beep_06.wav";
     audioEngine.loadSound(soundpath, false, true);
@@ -39,11 +39,11 @@ int main()
         
         static auto start = std::chrono::high_resolution_clock::now();
 
-        if (glassfirst) { audioEngine.playSound(soundpath, audioEngine.volumeTodB(.75f)); glassfirst = false; }
+        if (glassfirst) { audioEngine.playSound(soundpath, audioEngine.volumeTodB(.25f)); glassfirst = false; }
 
-        if (ms >= 2000 && boopfirst) { audioEngine.playSound(boop, audioEngine.volumeTodB(1.f)); boopfirst = false; }
+        if (boopfirst && ms >= 2000) { audioEngine.playSound(boop, audioEngine.volumeTodB(1.f)); boopfirst = false; }
                                                     
-        if (ms >= 4000 && beepfirst) { audioEngine.playSound(beep, audioEngine.volumeTodB(1.f)); beepfirst = false; }
+        if (beepfirst && ms >= 4000) { audioEngine.playSound(beep, audioEngine.volumeTodB(1.f)); beepfirst = false; }
 
 
         auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);

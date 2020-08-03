@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <cmath>
 #include <iostream>
@@ -12,13 +12,6 @@
 
 #include "glm/glm.hpp"
 
-
-struct Vector3 // replace with glm::vec3?
-{
-    float x;
-    float y;
-    float z;
-};
 
 struct Implementation 
 {
@@ -32,10 +25,10 @@ struct Implementation
 
     int nextChannelId = 0;
 
-    using SoundMap = std::map<std::string, FMOD::Sound*>;
-    using ChannelMap = std::map<int, FMOD::Channel*>;
-    using EventMap = std::map<std::string, FMOD::Studio::EventInstance*>;
-    using BankMap = std::map<std::string, FMOD::Studio::Bank*>;
+    using SoundMap = std::unordered_map<std::string, FMOD::Sound*>;
+    using ChannelMap = std::unordered_map<int, FMOD::Channel*>;
+    using EventMap = std::unordered_map<std::string, FMOD::Studio::EventInstance*>;
+    using BankMap = std::unordered_map<std::string, FMOD::Studio::Bank*>;
 
     BankMap banks;
     EventMap events;
